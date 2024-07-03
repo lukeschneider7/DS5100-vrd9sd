@@ -1,0 +1,93 @@
+---
+title: "R Notebook"
+output: pdf_document
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+# Ex 10.1
+fib <- numeric(10)
+fib[1] = 1
+fib[2] = 1
+for (i in 3:10){
+  fib[i] <- fib[i-1] + fib[i-2]}
+paste(fib)
+```
+```{r}
+# Ex 10.2
+fibonacci <- function(x){
+  fib <- numeric(x)
+  fib[1] <- fib[2] <- 1
+  for (i in 3:x){
+    fib[i] <- fib[i-2] + fib[i-1]
+  }
+  return (fib)
+}
+print(fibonacci(17))
+```
+
+
+```{r}
+# Ex 10.3
+filter <-function(y=2){
+  if (y>=0 & y<=1){
+    return(1)
+  }
+  else{
+    return(0)
+  }
+}
+```
+
+
+```{r}
+# Ex 10.4
+filter(.25)
+filter(2.5)
+filter(25)
+filter(1)
+filter(0)
+```
+
+
+
+```{r}
+# Ex 10.5
+  for (i in 1:10){
+    print(LETTERS[i])}
+  
+for (i in 1:10){
+    print(letters[i])}
+  
+```
+
+
+
+
+```{r}
+# 10.6
+for (i in 1:100){
+if (i%%3==0 && i%%5!=0){
+    print("Fizz") }
+elif (i%%3!=0 && i%%5==0){
+    print('Buzz)  }
+elif (i%%3==0 && i%%5==0){
+  print("FizzBuzz")}
+print(i)}
+```
+
+
+```{r}
+# 10.7
+get_uniques = function(x){
+  sv1 = unlist(strsplit(tolower(x), ''))
+  print(sv1)
+  return(unique(sv1))
+}
+print(get_uniques( c(2, 4, 4)))
+```
+
+
