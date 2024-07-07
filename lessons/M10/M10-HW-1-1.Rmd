@@ -20,7 +20,7 @@ Date:    7 July (revised)
 ```         
 Name: Luke Schneider
 Ned ID: vrd9sd 
-URL of this file on GitHub:
+URL of this file on GitHub: https://github.com/lukeschneider7/DS5100-vrd9sd/blob/main/lessons/M10/M10-HW-1-1.Rmd 
 ```
 
 # Instructions
@@ -106,15 +106,14 @@ dollars for each bracket, as well as the payout in dollars.
 # CODE Here
 quota_percent = c(40, 30, 20, 10)
 rates = c(7, 10, 13, 16)
-df = data.frame(quota_percent=quota_percent, rates = rates)
+df = data.frame(quota_percent=quota_percent, rates = rates) # initial data frame
 
 quota = 225000
-df['quarterly_quota'] = quota * (df$quota_percent/100)
-df['quarterly_quota'] = cumsum(df['quarterly_quota'])
-df["earnings"] = (df$quota_percent/100) * quota * rates/100
-df['quota_percentages'] = c(0, .4, .7, .9)
-df["pay"] = cumsum(df$earnings)
-df
+df['quarterly_quota'] = cumsum(quota * (df$quota_percent/100)) # cumulative quota
+df["earnings"] = (df$quota_percent/100) * quota * rates/100 # earnings for each bracket
+df['quota_percentages'] = c(0, .4, .7, .9) # quota percentages reached at start of each bracket
+df["pay"] = cumsum(df$earnings) # cumulative earnings 
+head(df[, 1:6])
 ```
 
 # Task 2
@@ -156,6 +155,9 @@ amount_earned = function(fraction_of_quota){
   }
 
 amount_earned(.8)
+print(amount_earned(.4))
+print(amount_earned(.7))
+print(amount_earned(.9))
 print(amount_earned(1))
 
 ```
@@ -174,11 +176,15 @@ earned and payout for that amount.#
 
 ```{r}
 # CODE HERE
+df2 <- data.frame()
 s1 <- seq(from=0, to=1, by=.1)
 for (percent in s1){
-  payout = amount_earned(percent)
-  df2 = data.frame()
+  payout <- amount_earned(percent)
+  new_row <- data.frame(percent_quota_earned = c(percent*100), 
+             payout = c(payout))
+  df2 <- rbind(df2, new_row)
 }
+head(df2)
 ```
 
 # Task 4
@@ -195,8 +201,9 @@ defined above.
 
 ```{r}
 # CODE HERE
-plot(df$quarterly_quota, df$pay)
-plot(df$quarterly_quota, df$pay, type='l')
+par(mfrow = c(1, 2))
+plot(df$quarterly_quota, df$pay, xlab = "quarterly quota ($)", ylab = "amount earned ($)", main = "Amount earned over quota")
+plot(df$quarterly_quota, df$pay, type='l', xlab = "quarterly quota ($)", ylab = "amount earned ($)", main = "Amount earned over quota")
 
 ```
 
@@ -211,4 +218,8 @@ Again, display the graph using both points and lines.
 
 ```{r}
 # CODE HERE
+par(mfrow = c(1, 2))
+plot(df2$percent_quota_earned*(quota/100), df2$payout, xlab = "quarterly quota ($)", ylab = "payout earned ($)", main = "Payout over quota")
+plot(df2$percent_quota_earned*(quota/100), df2$payout, type='l', xlab = "quarterly quota ($)", ylab = "payout earned ($)", main = "Payout over quota")
+
 ```
