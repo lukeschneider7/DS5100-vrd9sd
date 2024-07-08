@@ -178,5 +178,5 @@ scores %>% group_by(school) %>% summarize(min_math = min(math_score))
 
 ```{r}
 # 11.33
-scores %>% group_by(teacher) %>% summarize(max_math = max(math_score))
+scores %>% group_by(teacher) %>% summarize(max_math = min(math_score))
 ```
