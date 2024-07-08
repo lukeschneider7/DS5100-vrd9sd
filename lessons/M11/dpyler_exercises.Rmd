@@ -1,0 +1,182 @@
+---
+title: "11_dpylr_ex"
+output: pdf_document
+date: "2024-07-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+
+
+``````{r}
+# 11.1
+library(tidyverse)
+```
+
+```{r}
+# 11.2
+scores <- 
+  tibble(
+    name = c("mike", "carol", "greg", "marcia", "peter", "jan", "bobby", "cindy", "alice"),
+    school = c("south", "south", "south", "south", "north", "north", "north", "south", "south"),
+    teacher = c("johnson", "johnson", "johnson", "johnson",  "smith", "smith", "smith", "perry", "perry"),
+    sex = c("male", "female", "male", "female", "male", "female", "male", "female", "female"),
+    math_score = c(4, 3, 2, 4, 3, 4, 5, 4, 5),
+    reading_score = c(1, 5, 2, 4, 5, 4, 1, 5, 4)
+)
+```
+
+```{r}
+# 11.3
+view(scores)
+```
+
+```{r}
+# 11.4
+scores %>% slice(1:3) # piping 
+first_three = scores[1:3, ]
+first_three
+
+```
+
+```{r}
+# 11.5
+score_by_score <- arrange(scores, desc(math_score))
+score_by_score
+
+```
+
+```{r}
+# 11.6
+score_by_name <- arrange(scores, name)
+score_by_name
+```
+
+```{r}
+# 11.7
+score_by_sex <- arrange(scores, sex)
+score_by_sex
+
+```
+```{r}
+# 11.8
+sort_by_mult <- arrange(scores, school, teacher, sex, math_score, reading_score)
+sort_by_mult
+```
+
+```{r}
+# 11.9
+select_three <- select(scores, name, math_score, reading_score)
+select_three
+```
+
+```{r}
+# 11.10
+select_but_sex <- select(scores, -(sex))
+select_but_sex
+```
+
+```{r}
+# 11.11
+select_but_two <- select(scores, -math_score, -reading_score)
+select_but_two
+```
+
+```{r}
+# 11.12
+rearrange <- scores %>% select(sex, everything())
+rearrange 
+```
+
+
+```{r}
+# 11.13
+filter_male_south <- filter(scores, (sex == 'male' & school == 'south'))
+filter_male_south
+```
+
+```{r}
+# 11.14
+above_avg <- filter(scores, math_score > mean(math_score))
+above_avg
+```
+
+
+```{r}
+# 11.15
+above_score <- scores %>% filter((math_score>3 & reading_score>2))
+above_score
+```
+
+```{r}
+# 11.16
+either <- filter(scores, (reading_score<4 | math_score<4))
+either
+```
+
+```{r}
+# 11.17
+between <- scores %>% filter(between(reading_score, 2, 4))
+between
+```
+
+
+```{r}
+# 11.18
+m <- scores %>% filter(substr(name, 1, 1) == 'm')
+m
+```
+
+```{r}
+# 11.19 -> give professors whose best student had a math score of 5
+best_five <- scores %>% group_by(teacher) %>% filter(max(math_score) == 5)
+best_five
+```
+
+```{r}
+# 11.20 
+sex_four <- scores %>% group_by(sex) %>% filter(mean(math_score) == 4)
+sex_four
+```
+```{r}
+# 11.21 -> set math and reading scores ten times original values
+time_ten <- scores %>% mutate(math_score*10, reading_score*10)
+time_ten
+```
+
+```{r}
+# 11.22
+new_colum <- scores %>% mutate(avg_score = (math_score + reading_score)/2)
+new_colum
+```
+
+
+```{r}
+# 11.26
+math_sex <- scores %>% group_by(sex) %>% mutate(math_score_center_by_sex = mean(math_score)-math_score)
+math_sex %>% arrange(desc(math_score_center_by_sex))
+```
+```{r}
+# 11.27
+by_read = scores %>% group_by(teacher) %>% mutate(reading_score_cent_by_teacher = mean(reading_score)-reading_score)
+by_read
+```
+
+```{r}
+# 11.32
+scores %>% group_by(school) %>% summarize(min_math = min(math_score))
+```
+
+```{r}
+# 11.33
+scores %>% group_by(teacher) %>% summarize(max_math = max(math_score))
+```
