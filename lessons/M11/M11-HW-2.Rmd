@@ -15,9 +15,9 @@ output: pdf_document
 
 # Student Info
 
-    Name:  
-    Net ID:
-    File GitHub URL:
+    Name: Luke Schneider
+    Net ID: vrd9sd
+    File GitHub URL: https://github.com/lukeschneider7/DS5100-vrd9sd/blob/main/lessons/M11/M11-HW-2.Rmd 
 
 # Instructions
 
@@ -67,6 +67,9 @@ Get the dataset.
 
 ```{r}
 # CODE HERE
+library(tidyverse)
+abalone_data = read.csv(file='https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data', header=FALSE)
+head(abalone_data)
 ```
 
 ## Task 1
@@ -77,6 +80,7 @@ Print the number of rows in the dataset.
 
 ```{r}
 # CODE HERE
+print(nrow(abalone_data))
 ```
 
 ## Task 2
@@ -88,6 +92,7 @@ rings
 
 ```{r}
 # CODE HERE
+print(max(abalone_data$V9))
 ```
 
 ## Task 3
@@ -102,6 +107,8 @@ gender is infant, and print the number of records.
 
 ```{r}
 # CODE HERE
+infant_data = abalone_data %>% filter(V1== 'I')
+print(nrow(infant_data))
 ```
 
 ## Task 4
@@ -113,6 +120,8 @@ gender is infant or male, and print the number of records.
 
 ```{r}
 # CODE HERE
+infant_male_data = abalone_data %>% filter(V1== 'I' | V1 == 'M')
+print(nrow(infant_male_data))
 ```
 
 ## Task 5
@@ -126,6 +135,7 @@ Print the result.
 
 ```{r}
 # CODE HERE
+table(abalone_data$V1)
 ```
 
 ## Task 6
@@ -141,6 +151,7 @@ Requirements: use the `%>%` operator to chain commands, and the
 
 ```{r}
 # CODE HERE
+abalone_data %>% group_by(V1) %>% summarize(mean(V2))
 ```
 
 # Task 7
@@ -154,4 +165,5 @@ Requirements: use the `%>%` operator to chain commands.
 
 ```{r}
 # CODE HERE
+abalone_data %>% group_by(V1) %>% filter(V1=='M') %>% summarize(median(V2))
 ```
